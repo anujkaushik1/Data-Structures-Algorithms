@@ -15,7 +15,7 @@ public class PowerLogarithmic {
 		if(n % 2 == 0) {
 			 pow = faith * faith;
 		}else {
-			 pow = faith * faith * 2;
+			 pow = faith * faith * x;
 		}
 		
 		return pow;
