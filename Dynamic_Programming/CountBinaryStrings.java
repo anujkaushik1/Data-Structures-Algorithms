@@ -10,12 +10,12 @@ public class CountBinaryStrings {
 		int oldOneCount = 1;
 		
 		for(int i = 2; i <= n; i++) {
-			
-			int newOneCount = oldOneCount + oldZeroCount;
-            int newZeroCount = oldOneCount;
-            
-            oldZeroCount = newZeroCount;
-            oldOneCount = newOneCount;
+ 
+		    int newOneCount = oldOneCount + oldZeroCount;
+		    int newZeroCount = oldOneCount;
+
+		    oldZeroCount = newZeroCount;
+		    oldOneCount = newOneCount;
 		}
 		
 		return oldOneCount + oldZeroCount;
