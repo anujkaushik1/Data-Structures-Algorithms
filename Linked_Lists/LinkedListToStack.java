@@ -20,10 +20,21 @@ public class Main {
     }
 
     int pop() {
+      
+      if(list.size() == 0){
+          System.out.println("Stack underflow");
+          return -1;
+      }
+      
       return list.removeFirst();
     }
 
     int top() {
+         
+      if(list.size() == 0){
+          System.out.println("Stack underflow");
+          return -1;
+      }
         return list.getFirst();
     }
   }
