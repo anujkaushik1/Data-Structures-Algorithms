@@ -55,16 +55,18 @@ public class Main {
     return s;
   }
 
-  public static int max(Node node) {
-    int m = Integer.MIN_VALUE;
-
-    for (Node child : node.children) {
-      int cm = max(child);
-      m = Math.max(m, cm);
+  public static int max(Node root) {
+    
+    int maxi = root.data;
+    
+    for(Node child : root.children){
+        
+        int res = max(child);
+        maxi = Math.max(res, maxi);
     }
-    m = Math.max(m, node.data);
-
-    return m;
+    
+    return maxi;
+    
   }
 
   public static void main(String[] args) throws Exception {
@@ -83,5 +85,3 @@ public class Main {
   }
 
 }
-                        
-                                
