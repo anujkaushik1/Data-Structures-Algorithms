@@ -117,18 +117,20 @@ public class Main {
   }
 
   public static void printKNodesFar(Node node, int data, int k) {
-    ArrayList<Node> n2RPath = nodeToRootPath(node, data);
+    ArrayList<Node> n2RPath = nodeToRootPath(node, data);  // Time Compexity => O(N)
     
     int distance = k;
     
-    for(int i = 0; i < n2RPath.size(); i++){
+    for(int i = 0; i < n2RPath.size(); i++){  // Time Compexity => O(k)
         
         if(distance < 0) break;
         
         Node blockage = (i == 0) ? null : n2RPath.get(i - 1);
-        printKLevelsDown(n2RPath.get(i), distance, blockage);
+        printKLevelsDown(n2RPath.get(i), distance, blockage); // Time Compexity => O(N)
         distance --;
     }
+    
+    // Time Compexity => O(N + k * N) = O(N * K)
     
   }
 
