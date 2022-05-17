@@ -87,7 +87,7 @@ public class Main {
           curr.isBal = false;
       }
       
-      curr.height = Math.max(lhei.height, rhei.height) - 1;
+      curr.height = Math.max(lhei.height, rhei.height) + 1;
       
       return curr;
       
