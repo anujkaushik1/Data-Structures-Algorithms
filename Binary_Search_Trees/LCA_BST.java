@@ -89,7 +89,7 @@ public class Main {
         return lca(node.left, d1, d2);
     }
     else if(d1 > node.data && d2 > node.data){
-        // data > d1 < d2
+        // data < d1 < d2
         return lca(node.right, d1, d2);    
     }
     else{
