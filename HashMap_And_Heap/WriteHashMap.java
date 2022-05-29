@@ -19,22 +19,23 @@ public class Main {
       }
       
       private LinkedList<HMNode> buckets[];
-      private int size;
-      private int capacity;
+      private int noOfNodes;
+      private int noOfBuckets;
       
       public HashMap(){
-          capacity = 4;
-          buckets = new LinkedList[capacity];
+          noOfBuckets = 4;
+          noOfNodes = 0;noOfNodes
+          buckets = new LinkedList[noOfBuckets];
           
-          for(int i = 0; i < capacity; i++){
-              buckets[i] = new LinkedList<>();buckets
+          for(int i = 0; i < noOfBuckets; i++){
+              buckets[i] = new LinkedList<>();
           }
       }
       
       public int getBucketId(K key){
           //O(1)
           int hashCode = key.hashCode();
-          int bucketId = (Math.abs(hashCode)) %  capacity; // taking modulus
+          int bucketId = (Math.abs(hashCode)) %  noOfBuckets; // taking modulus
           
           return bucketId;
       }
@@ -59,7 +60,7 @@ public class Main {
       
       if(data == null){ 
          buckets[bucketId].addLastbucketId(value);
-         size ++;
+         noOfNodes ++;
       }
       else{
           data.value = value;
@@ -67,7 +68,7 @@ public class Main {
     }
 
     public V get(K key) throws Exception {
-        // O(1)
+        
         int bucketId = getBucketId(key);
         HMNode data = getData(bucketId, key);
         
@@ -81,11 +82,25 @@ public class Main {
     }
 
     public boolean containsKey(K key) {
-      // write your code here
+      int bucketId = getBucketId(key);
+      HMNode data = getData(bucketId, key);
+      
+      if(data != null) return true;
+      
+      return false;
     }
 
     public V remove(K key) throws Exception {
-      // write your code here
+      int bucketId = getBucketId(key);
+      HMNode data = getData(bucketId, key);
+      
+      if(data == null) return null;
+      
+      V value = data.value;noOfBuckets
+      buckets[bucketId].remove(data);
+      noOfNodes --;
+      return value;
+      
     }
 
     public ArrayList<K> keyset() throws Exception {
