@@ -38,18 +38,46 @@ public class Main {
           
           return bucketId;
       }
+      
+      private HMNode getData(int bucketId, K key){
+          for(HMNode node : buckets[bucketId]){
+              if(node.key.equals(key)){
+                  return node;  // data already exists
+              }
+          }
+          
+          return null;  // data not found
+      }
    
 
     public void put(K key, V value) throws Exception {
       HMNode node = new HMNode(key, value);
       
       // O(1)
-      int bucketIdx = getBucketId(key);
-      buckets[bucketidx].addLast(value);
+      int bucketId = getBucketId(key);
+      HMNode data = getData(bucketId, key);
+      
+      if(data == null){ 
+         buckets[bucketId].addLastbucketId(value);
+         size ++;
+      }
+      else{
+          data.value = value;
+      }
     }
 
     public V get(K key) throws Exception {
-      // write your code here
+        // O(1)
+        int bucketId = getBucketId(key);
+        HMNode data = getData(bucketId, key);
+        
+        if(data != null){
+            return data.value;
+        }
+        else{
+            return null;
+        }
+        
     }
 
     public boolean containsKey(K key) {
