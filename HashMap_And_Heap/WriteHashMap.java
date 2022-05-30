@@ -5,11 +5,9 @@ public class Main {
 
   public static class HashMap<K, V> {
       
-      private class HMNode(){
+      private class HMNode{
           K key;
           V value;
-          
-          HMNode(){};
           
           HMNode(K key, V value){
               this.key = key;
@@ -17,16 +15,20 @@ public class Main {
           }
           
       }
-      
       private LinkedList<HMNode> buckets[];
       private int noOfNodes;
       private int noOfBuckets;
+      private double loadingFactor;
       
       public HashMap(){
           noOfBuckets = 4;
-          noOfNodes = 0;noOfNodes
+          noOfNodes = 0;
+          loadingFactor = 0.0;
+          init();
+      }
+      
+      public void init(){    
           buckets = new LinkedList[noOfBuckets];
-          
           for(int i = 0; i < noOfBuckets; i++){
               buckets[i] = new LinkedList<>();
           }
@@ -52,15 +54,34 @@ public class Main {
    
 
     public void put(K key, V value) throws Exception {
-      HMNode node = new HMNode(key, value);
-      
       // O(1)
       int bucketId = getBucketId(key);
       HMNode data = getData(bucketId, key);
       
       if(data == null){ 
-         buckets[bucketId].addLastbucketId(value);
-         noOfNodes ++;
+         
+            double newLoadingFactor = (noOfNodes + 1.0) / (noOfBuckets);
+         
+             if(newLoadingFactor > 2.0){
+                 // Rehashing =>
+                 LinkedList<HMNode> oldBuckets[] = buckets;
+                 noOfBuckets = 2 * noOfBuckets;
+                 init();
+                 
+                 for(int i = 0; i < oldBuckets.length; i++){
+                     for(HMNode node : oldBuckets[i]){
+                         int bucketid = getBucketId(node.key);
+                         buckets[bucketid].addLast(node);
+                     }
+                 }
+                 
+             }   
+             int newBucketId = getBucketId(key);
+             HMNode node = new HMNode(key, value);
+             buckets[newBucketId].addLast(node);
+             noOfNodes ++;
+             loadingFactor = (noOfNodes * 1.0) / noOfBuckets;
+
       }
       else{
           data.value = value;
@@ -96,19 +117,31 @@ public class Main {
       
       if(data == null) return null;
       
-      V value = data.value;noOfBuckets
+      V value = data.value;
       buckets[bucketId].remove(data);
       noOfNodes --;
+      loadingFactor = (noOfNodes * 1.0) / noOfBuckets;
       return value;
       
     }
 
     public ArrayList<K> keyset() throws Exception {
-      // write your code here
+        
+        // O(noOfBuckets * loadingfactor) = O(n)
+        
+      ArrayList<K> keys = new ArrayList<>();
+      
+      for(int i = 0; i < noOfBuckets; i++){
+          for(HMNode node : buckets[i]){
+              keys.add(node.key);
+          }
+      }
+      
+      return keys;
     }
 
     public int size() {
-      // write your code here
+      return noOfNodes;
     }
 
    public void display() {
@@ -126,7 +159,7 @@ public class Main {
 
   public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    HashMap<String, Integer> map = new HashMap();
+    HashMap<String, Integer> map = new HashMap<String, Integer>();
 
     String str = br.readLine();
     while (str.equals("quit") == false) {
