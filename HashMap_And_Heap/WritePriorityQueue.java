@@ -41,10 +41,50 @@ public class Main {
 
     public int remove() {
      // O(Log n)
+     
+      if(size() == 0){
+          System.out.println("Underflow");
+          return -1;
+      }
+      
+      int val = peek();
+      swap(0, size() - 1);
+      data.remove(size() - 1);
+      
+      downheapify(0);
+      return val;
+      
+    }
+    
+    public void downheapify(int idx){
+        int min = idx;
+        int left = 2 * idx + 1;
+        int right = 2 * idx + 2;
+        
+        if(left < size() && isSmaller(left, min)){
+            min = left;
+        }
+        
+        if(right < size() && isSmaller(right, min)){
+            min = right;
+        }
+        
+        if(min != idx){
+            swap(min, idx);
+            downheapify(min);
+        }
     }
 
     public int peek() {
       // O(1)
+      
+      if(size() == 0){
+          System.out.println("Underflow");
+          return -1;
+      }
+      
+      return data.get(0);
+      
     }
 
     public int size() {
