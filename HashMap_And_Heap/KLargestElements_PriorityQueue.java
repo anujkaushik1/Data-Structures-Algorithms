@@ -34,7 +34,7 @@ public class Main {
             pq.add(arr[i]);
         }
         
-        for(int i = 0; i < arr.length; i++){
+        for(int i = k; i < arr.length; i++){
             int val = arr[i];
             int top = pq.peek();
             
