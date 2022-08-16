@@ -1,154 +1,139 @@
-package TwoDArray;
+import java.io.*;
+import java.util.*;
 
-import java.util.Scanner;
+public class Main {
 
-public class RingRotate {
-	
-	private static int[][] rotateShell(int array[][], int s, int r) {
-		
-		int oneD[] = fillOneD(array, s);
-		oneD = rotate(oneD, r);
-		
-		array = fillTwoD(array, s, oneD);
-		
-		return array;		
-	}
-	
-	
-	private static int[] fillOneD(int array[][], int s) {
-		
-		int minr = s - 1;
-		int minc = s - 1;
-		int maxr = array.length - s;
-		int maxc = array[0].length - s;
-		
-		int length = 2 * (maxr - minr + maxc - minc);
-		
-		int oneD[] = new int[length];
-		
-		
-		int count = 0;
-			
-		while(count < length) {
-			
-			for(int i=minr,j=minc;i<=maxr && count < length;i++) {
-				oneD[count] = array[i][j];
-				count++;
-			}
-			minc++;
-			
-			for(int i=maxr,j=minc;j<=maxc && count < length;j++) {
-				oneD[count] = array[i][j];
-				count++;
-			}
-			maxr--;
-			
-			for(int i=maxr,j=maxc;i>=minr && count < length;i--) {
-				oneD[count] = array[i][j];
-				count++;
-			}
-			maxc--;
-			
-			for(int i=minr,j=maxc;j>=minc && count < length;j--) {
-				oneD[count] = array[i][j];
-				count++;
-			}
-			minr++;
-			
-		}
+    public static void main(String[] args) throws Exception {
+       Scanner scn = new Scanner(System.in);
+       int n = scn.nextInt();
+       int m = scn.nextInt();
+       int arr[][] = new int[n][m];
+       
+       for(int i = 0; i < n; i++){
+           for(int j = 0; j < m; j++){
+               arr[i][j] = scn.nextInt();
+           }
+       }
+       int s = scn.nextInt();
+       int r = scn.nextInt();
+       ringRotate(arr, r, s);
+    }
+    
+    private static void ringRotate(int arr[][], int r, int s){
+       int oned[] = fillOneD(arr, s);
+       rotate(oned, r);
+       
+       fillTwoD(arr, oned , s);
+       display(arr);
+    }
+    
+    private static int[] fillOneD(int arr[][], int s){
+        
+        int minr = s - 1, minc = s - 1;
+        int maxr = arr.length - s, maxc = arr[0].length - s;
+        
+        int len = 2 * (maxr - minr + maxc - minc);
+        
+        int oned[] = new int[len];
+        int idx = 0;
+        for(int i = minr,j = minc; i <= maxr; i++){
+            oned[idx] = arr[i][j];
+            idx++;
+        }
+        
+        minc++;
+        
+        for(int i = maxr, j = minc; j <= maxc; j++){
+            oned[idx] = arr[i][j];
+            idx++;
+        }
+        
+        maxr--;
+        
+        for(int i = maxr, j = maxc; i >= minr; i--){
+            oned[idx] = arr[i][j];
+            idx++;
+        }
+        
+        maxc--;
+        
+        for(int i = minr, j = maxc; j >= minc; j--){
+            oned[idx] = arr[i][j];
+            idx++;
+        }
 
-		
-		
-		return oneD;
-	}
-	
-	
-	private static int[] rotate(int array[], int r) {
-		
-		r = r % array.length;
-		
-		if(r < 0) {
-			r += array.length;
-		}
-		
-		int index = array.length - r;
-		
-		array = reverse(array, 0, index - 1);
-		array = reverse(array, index, array.length - 1);
-		array = reverse(array, 0, array.length - 1);
-		
-		return array;
-	}
-	
-	private static int[] reverse(int array[], int i, int j) {
-		
-		while(i < j) {
-			int temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
-			
-			i++;
-			j--;
-		}
-		
-		return array;
-		
-	}
-	
-	
-	private static int[][] fillTwoD(int array[][], int s, int oneD[]){
-		
-		int minr = s - 1;
-		int minc = s - 1;
-		int maxr = array.length - s;
-		int maxc = array[0].length - s;
-				
-		int count = 0;
-		
-			for(int i=minr,j=minc;i<=maxr;i++) {
-				array[i][j] = oneD[count];
-				count++;
-			}
-			minc++;
-			
-			for(int i=maxr,j=minc;j<=maxc;j++) {
-				array[i][j] = oneD[count];
-				count++;
-			}
-			maxr--;
-			
-			for(int i=maxr,j=maxc;i>=minr;i--) {
-				array[i][j] = oneD[count];
-				count++;
-			}
-			maxc--;
-			
-			for(int i=minr,j=maxc;j>=minc;j--) {
-				array[i][j] = oneD[count];
-				count++;
-			}
-			minr++;
-			
-				
-		return array;
-	}
+        return oned;
+    }
+    
+    private static void fillTwoD(int arr[][], int oned[], int s){
+        
+         
+        int minr = s - 1, minc = s - 1;
+        int maxr = arr.length - s, maxc = arr[0].length - s;
+        int idx = 0;
+        
+        for(int i = minr,j = minc; i <= maxr; i++){
+           arr[i][j] =  oned[idx];
+            idx++;
+        }
+        
+        minc++;
+        
+        for(int i = maxr, j = minc; j <= maxc; j++){
+           arr[i][j] =  oned[idx];
+            idx++;
+        }
+        
+        maxr--;
+        
+        for(int i = maxr, j = maxc; i >= minr; i--){
+            arr[i][j] =  oned[idx];
+            idx++;
+        }
+        
+        maxc--;
+        
+        for(int i = minr, j = maxc; j >= minc; j--){
+            arr[i][j] =  oned[idx];
+            idx++;
+        }
+    }
 
-	public static void main(String[] args) {
-		
-		Scanner scn = new Scanner(System.in);
-		int n = scn.nextInt();
-		int m = scn.nextInt();
-		
-		int array[][] = null;
-		array = InputClass.getScanner(array, n, m, scn);
-		
-		int s = scn.nextInt();
-		int r = scn.nextInt();
-		
-		array = rotateShell(array, s, r);
-		
-		InputClass.display(array);
-
-	}
+    private static void rotate(int arr[], int r){
+        
+        r = r % arr.length;
+        
+        if(r < 0){
+            r += arr.length;
+        }
+        
+        int len = arr.length - r;
+        reverse(arr, 0, len - 1);
+        reverse(arr, len, arr.length - 1);
+        reverse(arr, 0, arr.length - 1);
+        
+        
+    }
+    
+    private static void reverse(int arr[], int i, int j){
+        
+        while(i <= j){
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            
+            i++;
+            j--;
+        }
+        
+    }
+    public static void display(int[][] arr){
+        for(int i = 0; i < arr.length; i++){
+            for(int j = 0; j < arr[0].length; j++){
+                System.out.print(arr[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
 
 }
