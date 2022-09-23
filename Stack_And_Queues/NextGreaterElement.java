@@ -1,63 +1,48 @@
-package Stack_And_Queues;
+/*
+    Time Complexity - O(N)
+    Space Complexity - O(N)
 
-import java.io.*;
-import java.util.*;
+    where N is the number of elements in the array
+*/
 
- public class NextGreaterElement{
-	 
-	  public static void display(int[] a){
-		  
-	    StringBuilder sb = new StringBuilder();
-	
-	    for(int val: a){
-	      sb.append(val + "\n");
-	    }
-	    System.out.println(sb);
-	  }
-	
-	public static void main(String[] args) throws Exception {
-		
-	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	
-	    int n = Integer.parseInt(br.readLine());
-	    int[] a = new int[n];
-	    for(int i = 0; i < n; i++){
-	       a[i] = Integer.parseInt(br.readLine());
-	    }
-	
-	    int[] nge = solve(a);
-	    display(nge);
-	 }
-	
-	 public static int[] solve(int[] arr){
-	   
-		 int ans[] = new int[arr.length];
-		 
-		 Stack<Integer> st = new Stack<>();
-		 
-		 st.push(arr[arr.length - 1]);
-		 
-		 ans[arr.length - 1] = -1;
-		 
-		 for(int i = ans.length - 2; i >= 0; i--) {
-			 
-			 while(st.size() > 0 && arr[i] >= st.peek()) {
-				st.pop(); 
-			 }
-			 
-			 if(st.size() == 0) {
-				 ans[i] = -1;
-			 }
-			 else {
-				 ans[i] = st.peek();
-			 }
-			 
-			 st.push(arr[i]);
-		 }
-		 
-		 return ans;
-		 
-	 }
-	
+import java.util.Stack;
+public class Solution 
+{
+    public static int[] nextGreaterElement(int[] arr, int n) 
+    {
+        // Create a vetor to store next Greater elements
+        int[] ans = new int[n];
 
-  }
+        // Stack, to keep track of next greater element
+        Stack<Integer> s = new Stack<Integer>();
+
+        // Traverse in reverse fashion in the array
+        for(int i = n - 1; i >= 0; i--)
+        {
+            // If current element is greater than or equal to stack's top 
+            // element, we can pop it since now it will never get picked
+            // as the next greater element
+            while(!s.empty() && arr[i] >= s.peek())
+            {
+                 s.pop();
+            }
+
+            // If stack is not empty, stack's top element is 
+            // the next greater element, else there is none
+            if(!s.empty())
+            {
+                ans[i] = s.peek();
+            }
+            else
+            {
+                ans[i] = -1;
+            }
+
+            // Push current element onto stack
+            s.push(arr[i]);
+        }
+
+        // return final answer vector
+        return ans;
+    }
+}
