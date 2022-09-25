@@ -58,7 +58,8 @@ public static void main(String[] args) throws Exception {
     
     for(int i = 0; i < a.length; i++){
         int len = a[i];
-         if(next[i] == -1) {
+         if(next[i] == -1) {         // arr = [2,2,2,2]
+		 			//next = [-1,-1,-1,-1] so if next = -1 then enter n 
                 next[i] = n;
             }
         int bre = next[i] - prev[i] - 1;
